@@ -5,12 +5,14 @@ using UnityEngine;
 public class PlayerAttackSystem
 {
     private GameEvent gameEvent;
+    private ObjectPool objectPool;
     private List<PlayerAttackComponent> playerAttackComponentList = new List<PlayerAttackComponent>();
     private List<InputCommponent> inputCommponentList = new List<InputCommponent>();
 
-    public PlayerAttackSystem(GameEvent gameEvent)
+    public PlayerAttackSystem(GameEvent gameEvent, ObjectPool objectPool)
     {
         this.gameEvent = gameEvent;
+        this.objectPool = objectPool;
         gameEvent.AddComponentList += AddComponentList;
         gameEvent.RemoveComponentList += RemoveComponentList;
     }
@@ -36,7 +38,13 @@ public class PlayerAttackSystem
     private void Attack(PlayerAttackComponent playerAttackComponent)
     {
         playerAttackComponent.IntervalTimer = 0.0f;
-        Debug.Log("Attack");
+        GameObject bullet = objectPool.GetObject(playerAttackComponent.BulletPrefab);
+        bullet.transform.position = playerAttackComponent.gameObject.transform.position;
+        bullet.GetComponent<BulletMoveComponenent>().Direction = playerAttackComponent.gameObject.transform.forward;
+        if (!objectPool.IsNewGenerate) return;
+        playerAttackComponent.IntervalTimer = 0.0f;
+        bullet.SetActive(true);
+        objectPool.IsNewGenerate = false;
     }
 
     private void AddComponentList(GameObject gameObject)

@@ -12,6 +12,7 @@ public class Main : MonoBehaviour
     private PlayerInputSystem playerInputSystem;
     private PlayerAttackSystem playerAttackSystem;
     private EnemySpawnerSystem enemySpawnerSystem;
+    private BulletMoveSystem bulletMoveSystem;
 
     void Start()
     {
@@ -22,10 +23,11 @@ public class Main : MonoBehaviour
 
         characterMoveSystem = new CharacterMoveSystem(gameEvent);
         playerInputSystem = new PlayerInputSystem(gameEvent);
-        playerAttackSystem = new PlayerAttackSystem(gameEvent);
+        playerAttackSystem = new PlayerAttackSystem(gameEvent, objectPool);
 
         enemySpawnerSystem = new EnemySpawnerSystem(gameEvent, objectPool, player);
 
+        bulletMoveSystem = new BulletMoveSystem(gameEvent);
 
         gameEvent.AddComponentList?.Invoke(player);
         gameEvent.AddComponentList?.Invoke(enemySpawner);
@@ -37,5 +39,6 @@ public class Main : MonoBehaviour
         playerAttackSystem.OnUpdate();
         characterMoveSystem.OnUpdate();
         enemySpawnerSystem.OnUpdate();
+        bulletMoveSystem.Update();
     }
 }
