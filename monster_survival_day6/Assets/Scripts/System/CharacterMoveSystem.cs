@@ -22,16 +22,15 @@ public class CharacterMoveSystem
 
             if (characterMoveComponent.IsChase)
             {
-                characterMoveComponent.Direction = characterMoveComponent.TargetPosition - characterMoveComponent.transform.position;
-                characterMoveComponent.Direction.Normalize();
+                characterMoveComponent.Direction = Vector3.forward;
             }
+
             if (characterMoveComponent.IsLookAt)
             {
                 characterMoveComponent.transform.LookAt(characterMoveComponent.TargetPosition);
             }
 
             characterMoveComponent.transform.Translate(characterMoveComponent.Direction * characterMoveComponent.Speed * Time.deltaTime, Space.Self);
-
 
         }
     }
