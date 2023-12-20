@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 7915357402460804601}
   - component: {fileID: 894883002618211982}
   - component: {fileID: 4409953772793172821}
+  - component: {fileID: 1114198709282280026}
+  - component: {fileID: 5977676652823322228}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -32,8 +34,8 @@ Transform:
   m_GameObject: {fileID: 7915357402460804579}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -156,3 +158,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d10af19fabe6549a8bd087b7ededaefc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1114198709282280026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7915357402460804579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb4c13e57a8d4f7388d3c271e8c9213, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPointUIPrefab: {fileID: 2288288305378390435, guid: bd9c539090d714a5dbb541a93bfd27a7, type: 3}
+  positionOffset: {x: 0, y: 0, z: 0.5}
+--- !u!114 &5977676652823322228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7915357402460804579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0241c01d51a87408886530a9d75abe04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  experiencePointBorder: 3
+  attackRiseValue: 1
+  hitPointRiseValue: 10
+  speedRiseValue: 0.05

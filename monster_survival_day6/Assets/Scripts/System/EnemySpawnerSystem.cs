@@ -19,6 +19,8 @@ public class EnemySpawnerSystem
 
         gameEvent.AddComponentList += AddComponentList;
         gameEvent.RemoveComponentList += RemoveComponentList;
+
+        screenSize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 10.0f));
     }
 
     public void OnUpdate()
@@ -48,13 +50,19 @@ public class EnemySpawnerSystem
 
     private void Spawn(EnemySpawnerComponent enemySpawnerComponent)
     {
-        GameObject enemy = objectPool.GetObject(enemySpawnerComponent.EnemyPrefab); Vector3 spawnPosition = new Vector3(Random.Range(screenSize.x, screenSize.x + enemySpawnerComponent.PositionOffset.x), 0.0f, Random.Range(screenSize.y, screenSize.y + enemySpawnerComponent.PositionOffset.z));
+        GameObject enemy = objectPool.GetObject(enemySpawnerComponent.EnemyPrefab);
+        Vector3 spawnPosition = new Vector3(Random.Range(screenSize.x, screenSize.x + enemySpawnerComponent.PositionOffset.x), 0.0f, Random.Range(screenSize.y, screenSize.y + enemySpawnerComponent.PositionOffset.z));
         spawnPosition *= Random.Range(0, 2) == 0 ? 1 : -1;
         enemy.transform.position = player.transform.position + spawnPosition;
         enemySpawnerComponent.IntervalTimer = 0.0f;
-        if (!objectPool.IsNewGenerate) return;
-        enemySpawnerComponent.IntervalTimer = 0.0f;
         enemy.SetActive(true);
+        if (!objectPool.IsNewGenerate)
+        {
+            enemy.GetComponent<HitPointUIComponent>().HitPointUI.gameObject.SetActive(true);
+            enemy.GetComponent<CharacterBaseComponent>().HitPoint = enemy.GetComponent<CharacterBaseComponent>().HitPointMax;
+            return;
+        }
+        gameEvent.AddComponentList?.Invoke(enemy);
         objectPool.IsNewGenerate = false;
     }
 

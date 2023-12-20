@@ -35,7 +35,6 @@ public class EnemyHitSystem : MonoBehaviour
             if (damageCommponent.gameObject == playerObject) continue;
 
             if ((characterBaseComponent.transform.position - playerObject.transform.position).magnitude > (characterBaseComponent.transform.localScale.x / 2) + (playerObject.transform.localScale.x / 2)) continue;
-            Debug.Log("Hit");
             DamageCommponent playerDamage = playerObject.GetComponent<DamageCommponent>();
             playerDamage.DamagePoint += characterBaseComponent.AttackPoint;
             playerDamage.IsDamage = true;

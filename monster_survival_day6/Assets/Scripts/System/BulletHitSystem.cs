@@ -33,7 +33,6 @@ public class BulletHitSystem
                 if (!enemyList[j].activeSelf) continue;
                 if ((bulletBaseComponent.transform.position - enemyList[j].transform.position).magnitude > (bulletBaseComponent.transform.localScale.x / 2) + (enemyList[j].gameObject.transform.localScale.x / 2)) continue;
                 objectPool.RemoveObject(bulletBaseComponent.gameObject);
-                Debug.Log("Hit");
                 DamageCommponent enemyDamage = enemyList[j].GetComponent<DamageCommponent>();
                 enemyDamage.DamagePoint += bulletBaseComponent.AttackPoint;
                 enemyDamage.IsDamage = true;

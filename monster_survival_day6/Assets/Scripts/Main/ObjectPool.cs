@@ -11,6 +11,7 @@ public class ObjectPool
     public ObjectPool(GameEvent gameEvent)
     {
         this.gameEvent = gameEvent;
+        gameEvent.ReleaseObject += RemoveObject;
     }
 
     public GameObject GetObject(GameObject prefab)

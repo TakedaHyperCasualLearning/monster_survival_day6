@@ -5,12 +5,13 @@ using UnityEngine;
 public class BulletMoveSystem
 {
     private GameEvent gameEvent;
-
+    private GameObject playerObject;
     private List<BulletMoveComponenent> bulletMoveComponenentList = new List<BulletMoveComponenent>();
 
-    public BulletMoveSystem(GameEvent gameEvent)
+    public BulletMoveSystem(GameEvent gameEvent, GameObject player)
     {
         this.gameEvent = gameEvent;
+        this.playerObject = player;
         gameEvent.AddComponentList += AddComponentList;
         gameEvent.RemoveComponentList += RemoveComponentList;
     }
@@ -22,6 +23,12 @@ public class BulletMoveSystem
             BulletMoveComponenent bulletMoveComponenent = bulletMoveComponenentList[i];
             if (!bulletMoveComponenent.gameObject.activeSelf) continue;
             bulletMoveComponenent.transform.Translate(bulletMoveComponenent.Direction * bulletMoveComponenent.Speed * Time.deltaTime, Space.Self);
+
+            if (Vector3.Distance(bulletMoveComponenent.transform.position, playerObject.transform.position) > 8.0f)
+            {
+                gameEvent.ReleaseObject(bulletMoveComponenent.gameObject);
+                continue;
+            }
         }
     }
 

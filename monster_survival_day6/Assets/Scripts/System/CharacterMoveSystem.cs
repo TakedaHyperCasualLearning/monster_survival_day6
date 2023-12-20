@@ -19,6 +19,7 @@ public class CharacterMoveSystem
         for (int i = 0; i < characterMoveComponentList.Count; i++)
         {
             CharacterMoveComponent characterMoveComponent = characterMoveComponentList[i];
+            if (!characterMoveComponent.gameObject.activeSelf) continue;
 
             if (characterMoveComponent.IsChase)
             {
