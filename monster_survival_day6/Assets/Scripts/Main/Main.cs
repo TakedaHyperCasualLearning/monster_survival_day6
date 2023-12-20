@@ -5,6 +5,8 @@ using UnityEngine;
 public class Main : MonoBehaviour
 {
     [SerializeField] GameObject playerPrefab;
+    [SerializeField] GameObject enemyPrefab;
+    [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject enemySpawner;
     private GameEvent gameEvent;
     private ObjectPool objectPool;
@@ -12,7 +14,10 @@ public class Main : MonoBehaviour
     private PlayerInputSystem playerInputSystem;
     private PlayerAttackSystem playerAttackSystem;
     private EnemySpawnerSystem enemySpawnerSystem;
+    private EnemyHitSystem enemyHitSystem;
     private BulletMoveSystem bulletMoveSystem;
+    private BulletHitSystem bulletHitSystem;
+    private DamageSystem damageSystem;
 
     void Start()
     {
@@ -26,8 +31,12 @@ public class Main : MonoBehaviour
         playerAttackSystem = new PlayerAttackSystem(gameEvent, objectPool);
 
         enemySpawnerSystem = new EnemySpawnerSystem(gameEvent, objectPool, player);
+        enemyHitSystem = new EnemyHitSystem(gameEvent, player);
 
         bulletMoveSystem = new BulletMoveSystem(gameEvent);
+        bulletHitSystem = new BulletHitSystem(gameEvent, objectPool, enemyPrefab);
+
+        damageSystem = new DamageSystem(gameEvent);
 
         gameEvent.AddComponentList?.Invoke(player);
         gameEvent.AddComponentList?.Invoke(enemySpawner);
@@ -39,6 +48,9 @@ public class Main : MonoBehaviour
         playerAttackSystem.OnUpdate();
         characterMoveSystem.OnUpdate();
         enemySpawnerSystem.OnUpdate();
+        enemyHitSystem.OnUpdate();
         bulletMoveSystem.Update();
+        bulletHitSystem.OnUpdate();
+        damageSystem.OnUpdate();
     }
 }
