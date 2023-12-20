@@ -41,6 +41,10 @@ public class PlayerAttackSystem
         playerAttackComponent.IntervalTimer = 0.0f;
         GameObject bullet = objectPool.GetObject(playerAttackComponent.BulletPrefab);
         bullet.transform.position = playerAttackComponent.gameObject.transform.position;
+        Vector3 angle = new Vector3(0, 180 / (playerAttackComponent.Split + 1) * (i + 1) - 90, 0);
+        Quaternion angleQuat = Quaternion.Euler(angle);
+        Debug.Log("sprit:" + i + "angle:" + angle);
+        bullet.GetComponent<BulletMoveComponent>().Direction = angleQuat * playerAttackComponent.gameObject.transform.forward;
         bullet.GetComponent<BulletMoveComponenent>().Direction = playerAttackComponent.gameObject.transform.forward;
         bullet.GetComponent<BulletBaseComponent>().AttackPoint = characterBaseComponent.AttackPoint;
         playerAttackComponent.IntervalTimer = 0.0f;
