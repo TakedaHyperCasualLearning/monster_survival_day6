@@ -33,10 +33,33 @@ public class DamageSystem
                 gameEvent.ReleaseObject(characterBaseComponent.gameObject);
                 continue;
             }
+
+            if (characterBaseComponent.gameObject != playerObject && damageCommponent.IsDamageEffect)
+            {
+                if (damageCommponent.DamageEffectTimer > damageCommponent.DamageEffectTime || damageCommponent.DamageEffectTimer < 0.0f)
+                {
+                    if (damageCommponent.DamageEffectTimer < 0.0f) damageCommponent.DamageEffectTimer = 0.0f;
+                    else if (damageCommponent.DamageEffectTimer > damageCommponent.DamageEffectTime) damageCommponent.DamageEffectTimer = damageCommponent.DamageEffectTime;
+
+                    damageCommponent.DamageEffectCount++;
+
+                    if (damageCommponent.DamageEffectCount >= damageCommponent.DamageEffectCountMax)
+                    {
+                        damageCommponent.IsDamageEffect = false;
+                        damageCommponent.DamageEffectCount = 0;
+                    }
+                }
+
+                float dig = damageCommponent.DamageEffectCount % 2 == 0 ? 1.0f : -1.0f;
+                damageCommponent.DamageEffectTimer += Time.deltaTime * dig;
+                damageCommponent.SelfRenderer.materials[0].SetFloat("_MyTimer", damageCommponent.DamageEffectTimer / damageCommponent.DamageEffectTime);
+            }
+
             if (!damageCommponent.IsDamage) continue;
             characterBaseComponent.HitPoint -= damageCommponent.DamagePoint;
             damageCommponent.IsDamage = false;
             damageCommponent.DamagePoint = 0;
+            damageCommponent.IsDamageEffect = true;
         }
     }
 
