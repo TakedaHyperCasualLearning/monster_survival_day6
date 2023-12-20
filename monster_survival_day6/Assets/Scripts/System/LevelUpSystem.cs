@@ -23,6 +23,7 @@ public class LevelUpSystem
         levelUpComponent.AttackBase = characterBaseComponent.AttackPoint;
         levelUpComponent.HitPointBase = characterBaseComponent.HitPointMax;
         levelUpComponent.SpeedBase = playerAttackComponent.AttackInterval;
+        levelUpComponent.SplitBase = playerAttackComponent.Split;
     }
 
     public void OnUpdate()
@@ -62,6 +63,12 @@ public class LevelUpSystem
                 levelUpComponent.HitPointLevelOld = levelUpComponent.HitPointLevel;
                 characterBaseComponentList[i].HitPoint = characterBaseComponentList[i].HitPoint + levelUpComponent.HitPointRiseValue;
                 characterBaseComponentList[i].HitPointMax = levelUpComponent.HitPointBase + levelUpComponent.HitPointRiseValue * levelUpComponent.HitPointLevel;
+            }
+            if (levelUpComponent.SplitLevel != levelUpComponent.SplitLevelOld)
+            {
+                levelUpComponent.SplitLevelOld = levelUpComponent.SplitLevel;
+                playerAttackComponentList[i].Split = levelUpComponent.SplitBase + levelUpComponent.SplitRiseValue * levelUpComponent.SplitLevel;
+                Debug.Log("split base" + levelUpComponent.SplitBase + "split rise" + levelUpComponent.SplitRiseValue + "split level" + levelUpComponent.SplitLevel);
             }
         }
     }

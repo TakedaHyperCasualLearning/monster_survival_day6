@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LevelUpUISystem
@@ -33,11 +34,66 @@ public class LevelUpUISystem
             if (levelUpComponent.IsLevelUp && !levelUpUIComponent.gameObject.activeSelf)
             {
                 levelUpUIComponent.gameObject.SetActive(true);
+                RandomButton(levelUpUIComponent);
                 continue;
             }
 
             if (levelUpComponent.IsLevelUp) continue;
             levelUpUIComponent.gameObject.SetActive(false);
+        }
+    }
+
+    public void OnClickLevelUpButton()
+    {
+        LevelUpComponent levelUPComponent = playerObject.gameObject.GetComponent<LevelUpComponent>();
+
+        if (levelUPComponent == null) return;
+
+        levelUPComponent.Level += 1;
+        gameEvent.LevelUp?.Invoke();
+        levelUPComponent.IsLevelUp = false;
+    }
+
+    private void RandomButton(LevelUpUIComponent levelUpUIComponent)
+    {
+        List<int> randomList = new List<int>();
+        for (int i = 0; i < 4; i++)
+        {
+            int temp = Random.Range(0, 4);
+            if (randomList.Contains(temp))
+            {
+                i--;
+                continue;
+            }
+            randomList.Add(temp);
+        }
+        levelUpUIComponent.RandomButton = randomList;
+
+        levelUpUIComponent.LevelUpButtonList[0].onClick.RemoveAllListeners();
+        levelUpUIComponent.LevelUpButtonList[1].onClick.RemoveAllListeners();
+        levelUpUIComponent.LevelUpButtonList[2].onClick.RemoveAllListeners();
+
+        for (int i = 0; i < 3; i++)
+        {
+            switch (randomList[i])
+            {
+                case 0:
+                    levelUpUIComponent.LevelUpButtonList[i].onClick.AddListener(OnClickAttackButton);
+                    levelUpUIComponent.LevelUpButtonList[i].gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Attack";
+                    break;
+                case 1:
+                    levelUpUIComponent.LevelUpButtonList[i].onClick.AddListener(OnClickHitPointButton);
+                    levelUpUIComponent.LevelUpButtonList[i].gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "HitPoint";
+                    break;
+                case 2:
+                    levelUpUIComponent.LevelUpButtonList[i].onClick.AddListener(OnClickAttackSpeedButton);
+                    levelUpUIComponent.LevelUpButtonList[i].gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "AttackSpeed";
+                    break;
+                case 3:
+                    levelUpUIComponent.LevelUpButtonList[i].onClick.AddListener(OnClickSplitButton);
+                    levelUpUIComponent.LevelUpButtonList[i].gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Split";
+                    break;
+            }
         }
     }
 
@@ -71,6 +127,17 @@ public class LevelUpUISystem
         if (levelUPComponent == null) return;
 
         levelUPComponent.SpeedLevel += 1;
+        gameEvent.LevelUp?.Invoke();
+        levelUPComponent.IsLevelUp = false;
+    }
+
+    public void OnClickSplitButton()
+    {
+        LevelUpComponent levelUPComponent = playerObject.gameObject.GetComponent<LevelUpComponent>();
+
+        if (levelUPComponent == null) return;
+
+        levelUPComponent.SplitLevel += 1;
         gameEvent.LevelUp?.Invoke();
         levelUPComponent.IsLevelUp = false;
     }

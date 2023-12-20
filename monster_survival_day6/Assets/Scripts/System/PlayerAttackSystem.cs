@@ -39,19 +39,20 @@ public class PlayerAttackSystem
     private void Attack(PlayerAttackComponent playerAttackComponent, CharacterBaseComponent characterBaseComponent)
     {
         playerAttackComponent.IntervalTimer = 0.0f;
-        GameObject bullet = objectPool.GetObject(playerAttackComponent.BulletPrefab);
-        bullet.transform.position = playerAttackComponent.gameObject.transform.position;
-        Vector3 angle = new Vector3(0, 180 / (playerAttackComponent.Split + 1) * (i + 1) - 90, 0);
-        Quaternion angleQuat = Quaternion.Euler(angle);
-        Debug.Log("sprit:" + i + "angle:" + angle);
-        bullet.GetComponent<BulletMoveComponent>().Direction = angleQuat * playerAttackComponent.gameObject.transform.forward;
-        bullet.GetComponent<BulletMoveComponenent>().Direction = playerAttackComponent.gameObject.transform.forward;
-        bullet.GetComponent<BulletBaseComponent>().AttackPoint = characterBaseComponent.AttackPoint;
-        playerAttackComponent.IntervalTimer = 0.0f;
-        bullet.SetActive(true);
-        if (!objectPool.IsNewGenerate) return;
-        gameEvent.AddComponentList?.Invoke(bullet);
-        objectPool.IsNewGenerate = false;
+        for (int i = 0; i < playerAttackComponent.Split; i++)
+        {
+            GameObject bullet = objectPool.GetObject(playerAttackComponent.BulletPrefab);
+            bullet.transform.position = playerAttackComponent.gameObject.transform.position;
+            Vector3 angle = new Vector3(0, 180 / (playerAttackComponent.Split + 1) * (i + 1) - 90, 0);
+            Quaternion angleQuat = Quaternion.Euler(angle);
+            bullet.GetComponent<BulletMoveComponenent>().Direction = angleQuat * playerAttackComponent.gameObject.transform.forward;
+            bullet.GetComponent<BulletBaseComponent>().AttackPoint = characterBaseComponent.AttackPoint;
+            bullet.SetActive(true);
+            playerAttackComponent.IntervalTimer = 0.0f;
+            if (!objectPool.IsNewGenerate) continue;
+            gameEvent.AddComponentList?.Invoke(bullet);
+            objectPool.IsNewGenerate = false;
+        }
     }
 
     private void AddComponentList(GameObject gameObject)

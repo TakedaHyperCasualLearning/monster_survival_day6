@@ -24,6 +24,11 @@ public class LevelUpComponent : MonoBehaviour
     [SerializeField] private float speedRiseValue;
     private float speedBase;
 
+    private int splitLevel;
+    private int splitLevelOld;
+    [SerializeField] private int splitRiseValue;
+    private int splitBase;
+
 
     public int Level { get => level; set => level = value; }
     public int ExperiencePoint { get => experiencePoint; set => experiencePoint = value; }
@@ -41,5 +46,9 @@ public class LevelUpComponent : MonoBehaviour
     public int SpeedLevelOld { get => speedLevelOld; set => speedLevelOld = value; }
     public float SpeedRiseValue { get => speedRiseValue; set => speedRiseValue = value; }
     public float SpeedBase { get => speedBase; set => speedBase = value; }
+    public int SplitLevel { get => splitLevel; set => splitLevel = value; }
+    public int SplitLevelOld { get => splitLevelOld; set => splitLevelOld = value; }
+    public int SplitRiseValue { get => splitRiseValue; set => splitRiseValue = value; }
+    public int SplitBase { get => splitBase; set => splitBase = value; }
 
 }
